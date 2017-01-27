@@ -8,7 +8,6 @@ root = lambda *x: os.path.join(BASE_DIR, *x)
 
 sys.path.insert(0, root('apps'))
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'CHANGE THIS!!!'
 
@@ -26,7 +25,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'authtools',
+    'django_extensions',
 ]
 
 PROJECT_APPS = []
@@ -57,7 +58,8 @@ DATABASES = {
         'NAME': 'tsuro',
         'USER': 'postgres',
         'PASSWORD': '',
-        'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'HOST':
+        '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',  # Set to empty string for default.
     }
 }
@@ -74,64 +76,62 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
 
-
 # Additional locations of static files
 
-STATICFILES_DIRS = (
-    root('assets'),
-)
+STATICFILES_DIRS = (root('assets'), )
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'DIRS': [
-            root('templates'),
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+    'DIRS': [root('templates'), ],
+    'OPTIONS': {
+        'debug': DEBUG,
+        'context_processors': [
+            'django.contrib.auth.context_processors.auth',
+            'django.template.context_processors.debug',
+            'django.template.context_processors.i18n',
+            'django.template.context_processors.media',
+            'django.template.context_processors.static',
+            'django.template.context_processors.tz',
+            'django.contrib.messages.context_processors.messages',
         ],
-        'OPTIONS': {
-            'debug': DEBUG,
-            'context_processors': [
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.debug',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    }
-]
+    },
+}]
+
+# Auth
+
+AUTH_USER_MODEL = 'authtools.User'
 
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # .local.py overrides all the common settings.
 try:
     from .local import *  # noqa
 except ImportError:
     pass
-
 
 # importing test settings file if necessary
 if IN_TESTING:
