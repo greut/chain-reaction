@@ -1,0 +1,18 @@
+<h1>Games</h1>
+<p>Hello {{ name }}!</p>
+
+<script>
+socket = new WebSocket('ws://' + location.host + '/games')
+socket.onmessage = function(e) {
+    console.log('message', e)
+}
+socket.onopen = function(e) {
+    console.log('open', e)
+    socket.send('hello')
+}
+
+// Manual callback.
+if (socket.readyState == WebSocket.OPEN) {
+    socket.onopen()
+}
+</script>

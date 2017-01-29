@@ -27,7 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authtools',
+    'channels',
     'django_extensions',
+    'games',
 ]
 
 PROJECT_APPS = []
@@ -130,6 +132,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Django Authtools
 
 LOGIN_REDIRECT_URL = 'password_change'
+
+# Channels
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "tsuro.routing.channel_routing",
+    }
+}
 
 # .local.py overrides all the common settings.
 try:

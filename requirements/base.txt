@@ -9,3 +9,4 @@ django-extensions>=1.7
 django-model-utils>=2.6
 
 psycopg2>=2.6
+channels>=1.0.2
