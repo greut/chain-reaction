@@ -40,6 +40,9 @@ Create the ``tsuro/settings/local.py`` file:
             }
         }
 
+    EMAIL_HOST = '127.0.0.1'
+    EMAIL_PORT = '1025'
+
 And continue.
 
 .. code:: console

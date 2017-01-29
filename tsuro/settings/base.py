@@ -127,6 +127,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Django Authtools
+
+LOGIN_REDIRECT_URL = 'password_change'
+
 # .local.py overrides all the common settings.
 try:
     from .local import *  # noqa
