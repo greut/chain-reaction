@@ -1,18 +1,28 @@
 <h1>Games</h1>
 <p>Hello {{ name }}!</p>
 
+<form>
+  <input type=text name=text>
+  <button type=submit>Send</button>
+</form>
+
 <script>
-socket = new WebSocket('ws://' + location.host + '/games')
+socket = new WebSocket('ws://' + location.host + '/games/1')
 socket.onmessage = function(e) {
-    console.log('message', e)
+    console.log('message', JSON.parse(e.data))
 }
-socket.onopen = function(e) {
-    console.log('open', e)
-    socket.send('hello')
+socket.onopen = function() {
+    console.log('open')
+    socket.send(JSON.stringify({message: 'hello'}))
 }
 
 // Manual callback.
 if (socket.readyState == WebSocket.OPEN) {
     socket.onopen()
 }
+
+document.querySelector("form").addEventListener("submit", function(e) {
+    e.preventDefault()
+    socket.send(JSON.stringify({'message': e.target.text.value}))
+}, false)
 </script>

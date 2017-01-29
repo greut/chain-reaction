@@ -136,9 +136,12 @@ LOGIN_REDIRECT_URL = 'password_change'
 # Channels
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "tsuro.routing.channel_routing",
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [],  # See below
+        },
+        'ROUTING': 'tsuro.routing.channel_routing',
     }
 }
 
@@ -147,6 +150,8 @@ try:
     from .local import *  # noqa
 except ImportError:
     pass
+
+CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [(REDIS_HOST, REDIS_PORT), ]
 
 # importing test settings file if necessary
 if IN_TESTING:

@@ -8,7 +8,7 @@ Setup
 
 .. code:: console
 
-    $ pip install -r requirements.txt
+    $ pip install -r requirements/local.txt
     $ docker-compose up -d
 
 Create the ``tsuro/settings/local.py`` file:
@@ -41,7 +41,10 @@ Create the ``tsuro/settings/local.py`` file:
         }
 
     EMAIL_HOST = '127.0.0.1'
-    EMAIL_PORT = '1025'
+    EMAIL_PORT = 1025
+
+    REDIS_HOST = '127.0.0.1'
+    REDIS_PORT = 6379
 
 And continue.
 
@@ -51,6 +54,8 @@ And continue.
     $ export DJANGO_SETTINGS_MODULE=tsuro.settings.local
     $ python manage.py migrate
     $ python manage.py createsuperuser
-    $ python manage.py runserver
+    $ python manage.py runserver --noworker
+    $ python manage.py runworker
+    $ honcho start
 
 Profit!
