@@ -134,7 +134,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'asgi_redis.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [],  # See below
+            'hosts': [('localhost', 6379)],
         },
         'ROUTING': 'tsuro.routing.channel_routing',
     }
@@ -143,10 +143,10 @@ CHANNEL_LAYERS = {
 # .local.py overrides all the common settings.
 try:
     from .local import *  # noqa
+
+    CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [(REDIS_HOST, REDIS_PORT), ]
 except ImportError:
     pass
-
-CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [(REDIS_HOST, REDIS_PORT), ]
 
 # importing test settings file if necessary
 if IN_TESTING:
