@@ -59,3 +59,31 @@ And continue.
     $ honcho start
 
 Profit!
+
+No Github?
+----------
+
+Syncing with a remote repository (or just use Github).
+
+.. code:: console
+
+    $ ssh srvz "git init --bare app.git"
+    $ git remote add srvz ssh://srvz/home/yoan/app.git
+    $ git push --set-upstream srvz master
+
+
+Deployment
+----------
+
+.. code:: console
+
+    $ cd /var/www
+    $ git clone ... app
+    $ cd app
+    $ python3 -m venv venv
+    $ . venv/bin/activate
+    $ pip install -U pip
+    $ pip install -r requirements/production.txt
+    $ python manage.py migrate
+    $ python manage.py createsuperuser
+    $ python manage.py collectstatic

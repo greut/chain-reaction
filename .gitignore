@@ -59,8 +59,8 @@ tsuro/settings/local.py
 tsuro/settings/production.py
 
 # collect static output directory
-tsuro/assets/
-tsuro/static/
+#tsuro/assets/
+#tsuro/static/
 
 .DS_Store
 
