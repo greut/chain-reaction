@@ -3,8 +3,16 @@
 {% block content %}
 <p>Hey, {{ view.name }}</p>
 <h1>{{ game.title }}</h1>
-<h2 id="status">Connexion à la partie</h2>
+<h2 id="status">
+{% if view.is_owner %}
+    En attente de joueurs
+{% else %}
+    Connexion à la partie
+{% endif %}
+</h2>
 <canvas id="game"></canvas>
+
+<p>Game adapted from Madhumitha Viswanathan's version (<a href="https://gist.github.com/madhuvishy/7711874">source</a>)</p>
 
 <script
   src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
@@ -36,7 +44,9 @@ var me = "{{ view.name }}",
     num = is_owner ? 0 : 1
 
 $(function(){
-    ws = new WebSocket('ws://' + location.host + '/ws/game/{{ game.uuid.hex }}')
+    var proto = document.location.protocol === 'https:' ? 'wss:' : 'ws:'
+    var port = document.location.port === '8000' ? 8001 : document.location.port
+    ws = new WebSocket(proto + '//' + location.hostname + ':' + port + '/ws/game/{{ game.uuid.hex }}')
 
     startgame("game", ws)
 });
