@@ -1,4 +1,6 @@
 -r testing.txt
 
+django-debug-toolbar>=1.6
+
 Sphinx
 honcho
