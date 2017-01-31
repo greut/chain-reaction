@@ -87,3 +87,7 @@ Deployment
     $ python manage.py migrate
     $ python manage.py createsuperuser
     $ python manage.py collectstatic
+
+    $ run daphne # see Procfile
+    $ run worker # see Procfile
+    $ configure nginx.conf ... # todo
