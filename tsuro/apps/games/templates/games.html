@@ -1,28 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Hello {{ view.name }}!</p>
+
 <h1>Games</h1>
-<p>Hello {{ name }}!</p>
 
-<form>
-  <input type=text name=text>
-  <button type=submit>Send</button>
+<h2>Join a game</h2>
+{% for game in game_list %}
+<ul>
+  <li>
+    {% if game.type == 'O' %}
+      <a href="{% url "game-detail" uuid=game.uuid.hex %}">{{ game.title }}</a>
+    {% else %}
+      {{ game.title }}
+    {% endif %}
+</ul>
+{% endfor %}
+
+<h2>Create a game</h2>
+<form method="POST" action="{% url "game-create" %}">{% csrf_token %}
+  <button type=submit>New game</button>
 </form>
-
-<script>
-socket = new WebSocket('ws://' + location.host + '/games/1')
-socket.onmessage = function(e) {
-    console.log('message', JSON.parse(e.data))
-}
-socket.onopen = function() {
-    console.log('open')
-    socket.send(JSON.stringify({message: 'hello'}))
-}
-
-// Manual callback.
-if (socket.readyState == WebSocket.OPEN) {
-    socket.onopen()
-}
-
-document.querySelector("form").addEventListener("submit", function(e) {
-    e.preventDefault()
-    socket.send(JSON.stringify({'message': e.target.text.value}))
-}, false)
-</script>
+{% endblock %}
