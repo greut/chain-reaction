@@ -20,10 +20,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin', 'django.contrib.auth',
-    'django.contrib.contenttypes', 'django.contrib.sessions',
-    'django.contrib.messages', 'django.contrib.staticfiles', 'authtools',
-    'channels', 'django_extensions', 'games', 'debug_toolbar'
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'authtools',
+    'channels',
+    'django_extensions',
+    'games',
 ]
 
 PROJECT_APPS = []
@@ -31,7 +37,6 @@ PROJECT_APPS = []
 INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE_CLASSES = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,6 +149,9 @@ CHANNEL_LAYERS = {
 try:
     from .local import *  # noqa
 
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE_CLASSES.insert(
+        0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [(REDIS_HOST, REDIS_PORT), ]
 except ImportError:
     pass
