@@ -1,5 +1,5 @@
-Tsuro
-=====
+Chain Reaction
+==============
 
 Le game.
 
@@ -11,7 +11,7 @@ Setup
     $ pip install -r requirements/local.txt
     $ docker-compose up -d
 
-Create the ``tsuro/settings/local.py`` file:
+Create the ``chain_reaction/settings/local.py`` file:
 
 .. code:: python
 
@@ -24,9 +24,9 @@ Create the ``tsuro/settings/local.py`` file:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'tsuro',
-            'USER': 'tsuro',
-            'PASSWORD': 'tsuro',
+            'NAME': 'chain_reaction',
+            'USER': 'chain_reaction',
+            'PASSWORD': 'chain_reaction',
             'HOST': '127.0.0.1',
             'PORT': '5432',
         }
@@ -36,7 +36,7 @@ Create the ``tsuro/settings/local.py`` file:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': '/tmp/tsuro_test.db',
+                'NAME': '/tmp/chain_reaction_test.db',
             }
         }
 
@@ -51,7 +51,7 @@ And continue.
 .. code:: console
 
 
-    $ export DJANGO_SETTINGS_MODULE=tsuro.settings.local
+    $ export DJANGO_SETTINGS_MODULE=chain_reaction.settings.local
     $ python manage.py migrate
     $ python manage.py createsuperuser
     $ python manage.py runserver --noworker

@@ -7,8 +7,8 @@ services:
   postgres:
     image: postgres:9.6-alpine
     environment:
-      - POSTGRES_USER=tsuro
-      - POSTGRES_PASSWORD=tsuro
+      - POSTGRES_USER=chain_reaction
+      - POSTGRES_PASSWORD=chain_reaction
       - POSTGRES_PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data

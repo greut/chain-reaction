@@ -47,17 +47,17 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'tsuro.urls'
+ROOT_URLCONF = 'chain_reaction.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'tsuro.wsgi.application'
+WSGI_APPLICATION = 'chain_reaction.wsgi.application'
 
 # Database
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tsuro',
+        'NAME': 'chain_reaction',
         'USER': 'postgres',
         'PASSWORD': '',
         'HOST':
@@ -141,7 +141,7 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             'hosts': [('localhost', 6379)],
         },
-        'ROUTING': 'tsuro.routing.channel_routing',
+        'ROUTING': 'chain_reaction.routing.channel_routing',
     }
 }
 

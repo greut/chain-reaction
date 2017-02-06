@@ -99,9 +99,9 @@ if "%1" == "qthelp" (
 	echo.
 	echo.Build finished; now you can run "qcollectiongenerator" with the ^
 .qhcp project file in %BUILDDIR%/qthelp, like this:
-	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\tsuro.qhcp
+	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\chain_reaction.qhcp
 	echo.To view the help file:
-	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\tsuro.ghc
+	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\chain_reaction.ghc
 	goto end
 )
 

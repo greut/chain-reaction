@@ -55,12 +55,12 @@ venv
 *.iml
 *.iws
 
-tsuro/settings/local.py
-tsuro/settings/production.py
+chain_reaction/settings/local.py
+chain_reaction/settings/production.py
 
 # collect static output directory
-#tsuro/assets/
-#tsuro/static/
+#chain_reaction/assets/
+#chain_reaction/static/
 
 .DS_Store
 
@@ -68,5 +68,5 @@ tsuro/settings/production.py
 node_modules/
 
 # bower packages
-tsuro/assets-src/vendor/
+chain_reaction/assets-src/vendor/
 .sass-cache/

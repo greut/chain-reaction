@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# tsuro documentation build configuration file, created by
+# chain_reaction documentation build configuration file, created by
 # sphinx-quickstart on Sun Feb 17 11:46:20 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'tsuro'
-copyright = u'Current year, Yoan Blanc'
+project = u'Chain Reaction'
+copyright = u'2017, Yoan Blanc'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -85,7 +85,6 @@ pygments_style = 'sphinx'
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
-
 
 # -- Options for HTML output ---------------------------------------------------
 
@@ -164,28 +163,26 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'tsurodoc'
-
+htmlhelp_basename = 'chain_reaction_doc'
 
 # -- Options for LaTeX output --------------------------------------------------
 
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+    # The paper size ('letterpaper' or 'a4paper').
+    #'papersize': 'letterpaper',
 
-# The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
+    # The font size ('10pt', '11pt' or '12pt').
+    #'pointsize': '10pt',
 
-# Additional stuff for the LaTeX preamble.
-#'preamble': '',
+    # Additional stuff for the LaTeX preamble.
+    #'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
-latex_documents = [
-  ('index', 'tsuro.tex', u'tsuro Documentation',
-   u'Yoan Blanc', 'manual'),
-]
+latex_documents = [('index', 'chain_reaction.tex',
+                    u'Chain Reaction Documentation', u'Yoan Blanc', 'manual'),
+                   ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -207,19 +204,15 @@ latex_documents = [
 # If false, no module index is generated.
 #latex_domain_indices = True
 
-
 # -- Options for manual page output --------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', 'tsuro', u'tsuro Documentation',
-     [u'Yoan Blanc'], 1)
-]
+man_pages = [('index', 'chain_reaction', u'Chain Reaction Documentation',
+              [u'Yoan Blanc'], 1)]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
-
 
 # -- Options for Texinfo output ------------------------------------------------
 
@@ -227,9 +220,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'tsuro', u'tsuro Documentation',
-   u'Yoan Blanc', 'tsuro', 'One line description of project.',
-   'Miscellaneous'),
+    ('index', 'chain_reaction', u'Chain Reaction Documentation', u'Yoan Blanc',
+     'chain_reaction', 'One line description of project.', 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
