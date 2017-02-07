@@ -1,36 +1,30 @@
-from django.views.generic import DetailView, ListView, FormView
-from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, TemplateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 
-from .forms import JoinForm
 from .models import Game
 
 
-class NameMixin():
-    def name(self):
-        return self.request.session['name']
-
-
-class JoinView(FormView):
+class JoinView(TemplateView):
     template_name = "join.html"
-    form_class = JoinForm
-    success_url = reverse_lazy('game-list')
 
-    def form_valid(self, form):
-        self.request.session['name'] = form.cleaned_data['name']
-        return super(JoinView, self).form_valid(form)
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return redirect('game-list')
+        return super(JoinView, self).dispatch(request, *args, **kwargs)
 
 
+@login_required()
 def game_create(request):
     game = Game.objects.create(
-        title="{0} vs ?".format(request.session['name']),
-        type=Game.GameType.Open)
+        title="{0} vs ?".format(request.user.name), type=Game.GameType.Open)
 
     request.session['game'] = game.uuid.hex
     return redirect('game-detail', uuid=game.uuid.hex)
 
 
-class GameDetailView(DetailView, NameMixin):
+class GameDetailView(LoginRequiredMixin, DetailView):
     template_name = "game.html"
     model = Game
 
@@ -41,7 +35,7 @@ class GameDetailView(DetailView, NameMixin):
         return Game.objects.get(uuid=self.kwargs['uuid'])
 
 
-class GameListView(ListView, NameMixin):
+class GameListView(LoginRequiredMixin, ListView):
     template_name = "games.html"
     model = Game
     queryset = Game.objects.all()

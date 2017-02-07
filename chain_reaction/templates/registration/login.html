@@ -1,6 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Login</h1>
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <p><button type=submit>Sign in</button></p>
 </form>
+
+<h2>Social logins</h2>
+<ul>
+  <li><a href="{% url "social:begin" "google-oauth2" %}">Google</a>
+  <li><a href="{% url "social:begin" "facebook" %}">Facebook</a>
+  <li><a href="{% url "social:begin" "github" %}">GitHub</a>
+</ul>
+{% endblock %}

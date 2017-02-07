@@ -46,6 +46,17 @@ Create the ``chain_reaction/settings/local.py`` file:
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = 6379
 
+    # Google OAuth 2.0 (see below)
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '...'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '...'
+
+    SOCIAL_AUTH_FACEBOOK_KEY = '...'
+    SOCIAL_AUTH_FACEBOOK_SECRET = '...'
+
+    SOCIAL_AUTH_GITHUB_KEY = '...'
+    SOCIAL_AUTH_GITHUB_SECRET = '...'
+
 And continue.
 
 .. code:: console
@@ -59,6 +70,40 @@ And continue.
     $ honcho start
 
 Profit!
+
+Social Login
+------------
+
+Google OAuth 2.0
+++++++++++++++++
+
+Create a project on Google APIs, enable Google+ API and follow the instructions.
+
+ - Which API are your using? *Google+ API*
+ - Where will you be calling the API from? *Web browser (Javascript)*
+ - What data will you be accessing? *User data*
+ - Authorized JavaScript origins? ``http://localhost:8000``
+ - Authorized redirect URIs? ``http://localhost:8000/complete/google-oauth2/``
+
+`Documentation <http://python-social-auth-docs.readthedocs.io/en/latest/backends/google.html#google-oauth2>`_
+
+Facebook OAuth 2.0
+++++++++++++++++++
+
+Create an appliation on Facebook developers and enable Facebook Login.
+
+ - Valid OAuth redirect URIs? ``http://localhost:8000/complete/facebook``
+
+`Documentation <http://python-social-auth-docs.readthedocs.io/en/latest/backends/facebook.html>`_
+
+GitHub OAuth 2.0
+++++++++++++++++
+
+Create a new application on Github.
+
+ - Authorization callback URL? ``http://localhost:8000/complete/github``
+
+`Documentation <http://python-social-auth-docs.readthedocs.io/en/latest/backends/github.html>`_
 
 No Github?
 ----------

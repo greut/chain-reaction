@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'authtools',
     'channels',
     'django_extensions',
+    'social_django',
+    'myauth',
     'games',
 ]
 
@@ -100,13 +102,15 @@ TEMPLATES = [{
             'django.template.context_processors.static',
             'django.template.context_processors.tz',
             'django.contrib.messages.context_processors.messages',
+            'social_django.context_processors.backends',
+            'social_django.context_processors.login_redirect',
         ],
     },
 }]
 
 # Auth
 
-AUTH_USER_MODEL = 'authtools.User'
+AUTH_USER_MODEL = 'myauth.User'
 
 # Password validation
 
@@ -129,9 +133,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Backends
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# Social Auth
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ('name', 'email')
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+
 # Django Authtools
 
-LOGIN_REDIRECT_URL = 'password_change'
+LOGIN_REDIRECT_URL = 'game-list'
 
 # Channels
 
