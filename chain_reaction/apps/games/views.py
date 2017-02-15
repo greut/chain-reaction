@@ -1,3 +1,5 @@
+import random
+
 from django.views.generic import DetailView, ListView, TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,19 +19,40 @@ class JoinView(TemplateView):
 
 @login_required()
 def game_create(request):
+    players = [request.user, None]
+    random.shuffle(players)
     game = Game.objects.create(
-        title="{0} vs ?".format(request.user.name), type=Game.GameType.Open)
+        first_player=players[0],
+        second_player=players[1],
+        type=Game.GameType.Open)
 
-    request.session['game'] = game.uuid.hex
-    return redirect('game-detail', uuid=game.uuid.hex)
+    return redirect('game-detail', pk=game.pk)
 
 
 class GameDetailView(LoginRequiredMixin, DetailView):
     template_name = "game.html"
     model = Game
 
-    def is_owner(self):
-        return self.request.session.get('game', None) == self.kwargs['uuid']
+    def dispatch(self, request, *args, **kwargs):
+        game = self.get_object()
+        if ((game.first_player == request.user or
+             game.second_player == request.user) and
+                game.type == Game.GameType.Running):
+            return redirect('game-play', uuid=str(game.uuid))
+        return super(GameDetailView, self).dispatch(request, *args, **kwargs)
+
+
+class GamePlayView(LoginRequiredMixin, DetailView):
+    template_name = "game-play.html"
+    model = Game
+
+    def dispatch(self, request, *args, **kwargs):
+        game = self.get_object()
+        if ((game.first_player != request.user and
+             game.second_player != request.user) or
+                game.type != Game.GameType.Running):
+            return redirect('game-detail', pk=game.pk)
+        return super(GamePlayView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self):
         return Game.objects.get(uuid=self.kwargs['uuid'])

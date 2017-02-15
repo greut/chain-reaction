@@ -4,16 +4,12 @@
 <h1>Games</h1>
 
 <h2>Join a game</h2>
-{% for game in game_list %}
 <ul>
+{% for game in game_list %}
   <li>
-    {% if game.type == 'O' %}
-      <a href="{% url "game-detail" uuid=game.uuid.hex %}">{{ game.title }}</a>
-    {% else %}
-      {{ game.title }}
-    {% endif %}
-</ul>
+      <a href="{% url "game-detail" pk=game.pk %}">{{ game }}</a>
 {% endfor %}
+</ul>
 
 <h2>Create a game</h2>
 <form method="POST" action="{% url "game-create" %}">{% csrf_token %}

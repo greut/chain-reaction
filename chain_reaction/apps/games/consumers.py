@@ -2,63 +2,94 @@ import re
 import json
 
 from channels import Group
-from channels.sessions import channel_session
+from channels.auth import channel_session_user, channel_session_user_from_http
+
+from django.core.urlresolvers import reverse
+from django.forms.models import model_to_dict
 
 from .models import Game
 
 
-@channel_session
+@channel_session_user_from_http
 def ws_connect(message):
     message.reply_channel.send({'accept': True})
-    room = message.content['path'].rsplit('/', 1)[1]
+    kind, room = message.content['path'].rsplit('/', 2)[1:]
 
     if re.match(r'^[0-9]+$', room):
         game = Game.objects.get(pk=room)
     else:
         game = Game.objects.get(uuid=room)
 
-    message.channel_session['room'] = game.uuid.hex
-    group = Group('chat-{}'.format(game.uuid.hex))
+    message.channel_session['room'] = game.pk
+    group = Group('chat-{}'.format(game.pk))
     group.add(message.reply_channel)
 
     if game.type == Game.GameType.Running:
         message.reply_channel.send({'text': json.dumps({'action': 'joined'})})
 
 
-@channel_session
+@channel_session_user
 def ws_message(message):
     room = message.channel_session['room']
     group = Group('chat-{}'.format(room))
 
-    game = Game.objects.get(uuid=room)
+    game = Game.objects.get(pk=room)
 
     data = json.loads(message.content['text'])
     if data['action'] == 'join':
-        if game.type == Game.GameType.Open:
-            game.type = Game.GameType.Running
-            game.title = game.title.replace('?', data['from'])
+        if game.join(message.user):
+            game.save()
+
+            group.send({
+                'text': json.dumps({
+                    'action': 'joined',
+                    'url': reverse(
+                        'game-play', kwargs={"uuid": str(game.uuid)})
+                })
+            })
+        else:
+            group.send({'text': json.dumps({'action': 'waiting'})})
+
+    elif data['action'] == 'start':
+        group.send({
+            'text': json.dumps({
+                'action': 'start',
+                'plays': [
+                    model_to_dict(
+                        play, fields=('turn', 'x', 'y'))
+                    for play in game.play_set.order_by('turn')
+                ]
+            })
+        })
+
+    elif data['action'] == 'play':
+        # TODO: add some kind of fact checking.
+        game.play_set.create(turn=data['tick'], x=data['x'], y=data['y'])
+
+        group.send({'text': message.content['text']})
+
+    elif data['action'] == 'score':
+        play = game.play_set.get(turn=data['tick'])
+        # TODO: add some kind of fact checking.
+        play.first_score = data['score'][0]
+        play.second_score = data['score'][1]
+        play.save()
+
+    elif data['action'] == 'close':
+        if game.type == Game.GameType.Running:
+            game.type = Game.GameType.Done
             game.save()
 
         group.send({
             'text': json.dumps({
-                'action': 'joined',
-                'title': game.title
+                'action': 'done',
+                'url': reverse(
+                    'game-detail', kwargs={"pk": game.pk})
             })
         })
-    if data['action'] == 'play':
-        group.send({'text': message.content['text']})
-
-    if data['action'] == 'close':
-        if game.type == Game.GameType.Running:
-            game.type == Game.GameType.Done
-            game.title = game.title.replace(
-                ' vs ', ' {0} vs {1} '.format(*data['score']))
-            game.save()
-
-        group.send({'text': json.dumps({'action': 'done'})})
 
 
-@channel_session
+@channel_session_user
 def ws_disconnect(message):
     room = message.channel_session['room']
     Group('chat-{}'.format(room)).discard(message.reply_channel)

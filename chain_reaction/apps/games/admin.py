@@ -1,8 +1,13 @@
 from django.contrib import admin
 
-from .models import Game
+from .models import Game, Play
 
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('first_player', 'second_player', 'type', 'uuid')
+    list_display = ('first_player', 'second_player', 'type', 'id', 'uuid')
+
+
+@admin.register(Play)
+class PlayAdmin(admin.ModelAdmin):
+    list_display = ('turn', 'x', 'y', 'first_score', 'second_score')

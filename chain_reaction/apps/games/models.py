@@ -35,15 +35,34 @@ class Game(TimeStampedModel):
     def __str__(self):
         return "{0.first_player} vs {0.second_player}".format(self)
 
+    def join(self, other_player):
+        if self.first_player is None and self.second_player != other_player:
+            self.first_player = other_player
+            self.type = self.GameType.Running
+            return True
+        if self.second_player is None and self.first_player != other_player:
+            self.second_player = other_player
+            self.type = self.GameType.Running
+            return True
+        return False
+
+    def num(self, player):
+        """First player is 0, second is 1."""
+        if self.first_player == player:
+            return 0
+        return 1
+
 
 class Play(TimeStampedModel):
     """A play in a game."""
 
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    turn = models.PositiveSmallIntegerField()
     x = models.PositiveSmallIntegerField()
     y = models.PositiveSmallIntegerField()
-    first_score = models.PositiveSmallIntegerField()
-    second_score = models.PositiveSmallIntegerField()
+    first_score = models.PositiveSmallIntegerField(null=True)
+    second_score = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
-        "{0.first_score} - {0.second_score} @ ({0.x},{0.y})".format(self)
+        return "{0.turn}. {0.first_score} - {0.second_score} @ ({0.x},{0.y})".format(
+            self)
