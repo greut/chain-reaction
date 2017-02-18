@@ -8,6 +8,7 @@ django-authtools>=1.5
 django-extensions>=1.7
 django-model-utils>=2.6
 django-choices>=1.4
+django-pipeline>=1.6
 
 psycopg2>=2.6
 

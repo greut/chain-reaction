@@ -46,7 +46,7 @@ Create the ``chain_reaction/settings/local.py`` file:
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = 6379
 
-    # Google OAuth 2.0 (see below)
+    # Social Auth (see below)
 
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '...'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '...'
@@ -57,6 +57,10 @@ Create the ``chain_reaction/settings/local.py`` file:
     SOCIAL_AUTH_GITHUB_KEY = '...'
     SOCIAL_AUTH_GITHUB_SECRET = '...'
 
+    # Static
+
+    STATIC_ROOT = "../public/static"
+
 And continue.
 
 .. code:: console
@@ -65,8 +69,7 @@ And continue.
     $ export DJANGO_SETTINGS_MODULE=chain_reaction.settings.local
     $ python manage.py migrate
     $ python manage.py createsuperuser
-    $ python manage.py runserver --noworker
-    $ python manage.py runworker
+    $ python manage.py collectstatic
     $ honcho start
 
 Profit!

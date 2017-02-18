@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'authtools',
     'channels',
     'django_extensions',
+    'pipeline',
     'social_django',
     'myauth',
     'games',
@@ -84,6 +85,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder', )
+
 # Additional locations of static files
 
 STATICFILES_DIRS = (root('assets'), )
@@ -107,6 +115,8 @@ TEMPLATES = [{
         ],
     },
 }]
+
+PIPELINE = {'PIPELINE_ENABLED': True}
 
 # Auth
 
