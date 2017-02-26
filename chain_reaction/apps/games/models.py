@@ -33,7 +33,16 @@ class Game(TimeStampedModel):
         related_name='second_game')
 
     def __str__(self):
-        return "{0.first_player} vs {0.second_player}".format(self)
+        if self.type != self.GameType.Open:
+            # FIXME: SELECT N+1
+            play = self.play_set.order_by('turn').last()
+            if not play:
+                play = Play(first_score=0, second_score=0)
+            return "{0.first_player.name} {1.first_score} vs {1.second_score} {0.second_player.name}".format(
+                self, play)
+        else:
+            return "{0.first_player.name} vs {0.second_player.name}".format(
+                self)
 
     def join(self, other_player):
         if self.first_player is None and self.second_player != other_player:

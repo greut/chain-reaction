@@ -120,6 +120,19 @@ Syncing with a remote repository (or just use Github).
     $ git push --set-upstream srvz master
 
 
+Assets
+------
+
+The assets must be rebuild if you change anything.
+
+.. code:: console
+
+    $ npm install
+    $ npm run prod
+    # or
+    $ npm run watch
+
+
 Deployment
 ----------
 

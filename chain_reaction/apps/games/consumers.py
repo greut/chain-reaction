@@ -15,17 +15,25 @@ def ws_connect(message):
     message.reply_channel.send({'accept': True})
     kind, room = message.content['path'].rsplit('/', 2)[1:]
 
+    print(room, message.content['path'])
     if re.match(r'^[0-9]+$', room):
         game = Game.objects.get(pk=room)
     else:
         game = Game.objects.get(uuid=room)
 
-    message.channel_session['room'] = game.pk
-    group = Group('chat-{}'.format(game.pk))
-    group.add(message.reply_channel)
+    if game:
+        message.channel_session['room'] = game.pk
+        group = Group('chat-{}'.format(game.pk))
+        group.add(message.reply_channel)
 
-    if game.type == Game.GameType.Running:
-        message.reply_channel.send({'text': json.dumps({'action': 'joined'})})
+        if game.type == Game.GameType.Running:
+            message.reply_channel.send({
+                'text': json.dumps({
+                    'action': 'joined'
+                })
+            })
+    else:
+        print("no game", game)
 
 
 @channel_session_user

@@ -9,7 +9,7 @@ root = lambda *x: os.path.join(BASE_DIR, *x)
 sys.path.insert(0, root('apps'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'CHANGE THIS!!!'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'CHANGE THIS!!!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,8 +29,8 @@ INSTALLED_APPS = [
     'authtools',
     'channels',
     'django_extensions',
-    'pipeline',
     'social_django',
+    'webpack_loader',
     'myauth',
     'games',
 ]
@@ -73,7 +73,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Zurich'
 
 USE_I18N = False
 
@@ -85,12 +85,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
-
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'pipeline.finders.PipelineFinder', )
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder")
+
+# Webpack loader
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'gen/',
+        'STATS_FILE': os.path.join(BASE_DIR, os.pardir, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
 
 # Additional locations of static files
 
@@ -115,8 +125,6 @@ TEMPLATES = [{
         ],
     },
 }]
-
-PIPELINE = {'PIPELINE_ENABLED': True}
 
 # Auth
 
