@@ -108,6 +108,9 @@ Create a new application on Github.
 
 `Documentation <http://python-social-auth-docs.readthedocs.io/en/latest/backends/github.html>`_
 
+For Github, you must create at least two applications for production and
+development as you cannot entre more than one callback URL.
+
 No Github?
 ----------
 
