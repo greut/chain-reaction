@@ -18,19 +18,22 @@ module.exports = {
         new ExtractTextPlugin('[name]-[contenthash].css'),
     ],
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['latest']
-                }
-            },{
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [['latest']]
+                        }
+                    }
+                ]
+            }, {
                 test: /\.s?css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
-                    loader: "css-loader!sass-loader"
+                    loader: ['css-loader', 'sass-loader']
                 })
             }
         ]
