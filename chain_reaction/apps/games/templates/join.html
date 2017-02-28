@@ -1,5 +1,20 @@
-<h1>Join</h1>
+{% extends "base.html" %}
 
-<p>
-    <a href="{% url "login" %}">Join us</a>
-</p>
+{% block content %}
+<div class="row">
+  <div class="col-md-6 offset-md-3 col-sm-12">
+  <div class="card">
+    <div class="card-block">
+      <h2 class="card-title">Chain Reaction</h2>
+      <p class="card-subtitle">
+        The game
+      </p>
+      <p class="card-text">
+        Make everything explode!
+      </p>
+      <a href="{% url "login" %}" class="card-link">Join us</a>
+    </div>
+  </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,26 +13,46 @@
     <title>{% block title %}Chain Reaction{% endblock title %}</title>
 
     {% block css %}
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css"
+            integrity="sha256-y4TDcAD4/j5o4keZvggf698Cr9Oc7JZ+gGMax23qmVA="
+            crossorigin="anonymous"
+            type="text/css">
+      {% render_bundle 'main' 'css' %}
     {% endblock %}
 
   </head>
 
   <body>
-    {% if user.is_authenticated %}
-      <p>
-        {{ user.name }} (<a href="{% url "logout" %}">log out</a>)
-        | <a href="{% url "game-list" %}">games</a>
-      </p>
-    {% else %}
-      <p><a href="{% url "login" %}">log in</a></p>
-    {% endif %}
     <div class="container">
-
+      <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+        <button class="navbar-toggler navbar-toggler-right"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarAlt"
+                aria-controls="navbarAlt"
+                aria-expended="false"
+                aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'join' %}">Chain Reaction</a>
+        <div class="navbar-collapse collapse" id="navbarAlt">
+          <div class="navbar-nav">
+          {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url "game-list" %}">games</a>
+            <a class="nav-item nav-link" href="#profile">{{ user.name }}</a>
+            <a class="nav-item nav-link" href="{% url "logout" %}">log out</a>
+          {% else %}
+            <a class="nav-item nav-link" href="{% url "login" %}">Sign up</a>
+          {% endif %}
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="container">
       {% block content %}
         <p>Use this document as a way to quick start any new project.</p>
       {% endblock content %}
-
     </div>
 
     {% block javascript %}
@@ -39,7 +60,11 @@
         src="//code.jquery.com/jquery-3.1.1.slim.min.js"
         integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
         crossorigin="anonymous"></script>
-      <script src="{% static 'js/scripts.js' %}"></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha256-gL1ibrbVcRIHKlCO5OXOPC/lZz/gpdApgQAzskqqXp8="
+        crossorigin="anonymous"></script>
+      {% render_bundle 'main' 'js' %}
     {% endblock javascript %}
   </body>
 </html>

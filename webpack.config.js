@@ -1,16 +1,21 @@
-var path = require('path')
-var webpack = require('webpack')
-var BundleTracker = require('webpack-bundle-tracker')
+const path = require('path')
+const webpack = require('webpack')
+const BundleTracker = require('webpack-bundle-tracker')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     context: __dirname,
-    entry: './chain_reaction/apps/games/assets/js/game',
+    entry: {
+        'game': './chain_reaction/apps/games/assets/js/game',
+        'main': './chain_reaction/assets/js/main',
+    },
     output: {
         path: path.resolve('./chain_reaction/assets/gen/'),
         filename: '[name]-[hash].js'
     },
     plugins: [
         new BundleTracker({filename: './webpack-stats.json'}),
+        new ExtractTextPlugin('[name]-[contenthash].css'),
     ],
     module: {
         loaders: [
@@ -21,11 +26,18 @@ module.exports = {
                 query: {
                     presets: ['latest']
                 }
+            },{
+                test: /\.s?css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    loader: "css-loader!sass-loader"
+                })
             }
         ]
     },
     externals: {
         jquery: "jQuery",
+        tether: "Tether",
         fabric: "fabric"
     }
 }
