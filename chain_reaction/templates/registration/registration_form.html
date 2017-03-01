@@ -1,28 +1,29 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+
 {% block content %}
 <div class="row">
   <div class="col">
-  <form method="POST">
-    {% csrf_token %}
-    <h2>Login</h2>
-    {{ form|crispy }}
-    <p>
-      <button type=submit class="btn btn-lg btn-primary btn-block">Sign in</button>
-    </p>
-  </form>
+    <form method="POST">
+      {% csrf_token %}
+      <h2>Register</h2>
+      {{ form|crispy }}
+      <p>
+        <button type=submit class="btn btn-lg btn-primary btn-block">Register</button>
+      </p>
+    </form>
   </div>
   <div class="col">
-    <h2>Social log in</h2>
+    <h2>Social registration</h2>
     <div class=btn-group>
       <a class="btn btn-secondary" href="{% url "social:begin" "google-oauth2" %}">Google</a>
       <a class="btn btn-secondary" href="{% url "social:begin" "facebook" %}">Facebook</a>
       <a class="btn btn-secondary" href="{% url "social:begin" "github" %}">GitHub</a>
     </div>
-    <h3>No accounts?</h3>
+    <h3>Already have an account?</h3>
     <p>
-      <a href="{% url "registration_register" %}" class="btn btn-lg btn-secondary">Register</a>
+      <a href="{% url "login" %}" class="btn btn-lg btn-secondary">Log in</a>
     </p>
-
+  </div>
 </div>
 {% endblock %}

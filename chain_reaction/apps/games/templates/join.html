@@ -1,20 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-6 offset-md-3 col-sm-12">
-  <div class="card">
-    <div class="card-block">
-      <h2 class="card-title">Chain Reaction</h2>
-      <p class="card-subtitle">
-        The game
-      </p>
-      <p class="card-text">
-        Make everything explode!
-      </p>
-      <a href="{% url "login" %}" class="card-link">Join us</a>
-    </div>
-  </div>
-  </div>
+<div class="jumbotron">
+  <h2 class="display-3">Chain Reaction</h2>
+  <p class="display-4">
+    The game
+  </p>
+  <p>
+    Make everything explode!
+  </p>
+  <p>
+    <a href="{% url "registration_register" %}" role="button"
+       class="btn btn-lg btn-success">
+      Join us
+    </a>
+  </p>
 </div>
 {% endblock %}

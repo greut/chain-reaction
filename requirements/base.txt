@@ -9,6 +9,8 @@ django-extensions>=1.7
 django-model-utils>=2.6
 django-choices>=1.4
 django-webpack-loader>=0.4.1
+django-crispy-forms>=1.6.1
+django-registration-redux>=1.4
 
 psycopg2>=2.6
 

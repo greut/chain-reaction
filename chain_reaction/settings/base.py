@@ -21,6 +21,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'registration',  # should be immediatly above d.c.auth
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'social_django',
     'webpack_loader',
+    'crispy_forms',
     'myauth',
     'games',
 ]
@@ -102,6 +104,10 @@ WEBPACK_LOADER = {
     }
 }
 
+# Forms
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
 # Additional locations of static files
 
 STATICFILES_DIRS = (root('assets'), )
@@ -129,6 +135,11 @@ TEMPLATES = [{
 # Auth
 
 AUTH_USER_MODEL = 'myauth.User'
+
+# Registration
+
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
 
 # Password validation
 

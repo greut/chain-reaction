@@ -5,6 +5,7 @@ from authtools.models import AbstractNamedUser
 
 class User(AbstractNamedUser):
     name = models.CharField(_('name'), max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
 
     # Required for Python Social App to work properly.
     USERNAME_FIELD = 'name'
