@@ -15,11 +15,7 @@
   </div>
   <div class="col">
     <h2>Social registration</h2>
-    <div class=btn-group>
-      <a class="btn btn-secondary" href="{% url "social:begin" "google-oauth2" %}">Google</a>
-      <a class="btn btn-secondary" href="{% url "social:begin" "facebook" %}">Facebook</a>
-      <a class="btn btn-secondary" href="{% url "social:begin" "github" %}">GitHub</a>
-    </div>
+      {% include "registration/_social.html" %}
     <h3>Already have an account?</h3>
     <p>
       <a href="{% url "login" %}" class="btn btn-lg btn-secondary">Log in</a>

@@ -41,8 +41,10 @@ class Game(TimeStampedModel):
             return "{0.first_player.name} {1.first_score} vs {1.second_score} {0.second_player.name}".format(
                 self, play)
         else:
-            return "{0.first_player.name} vs {0.second_player.name}".format(
-                self)
+            if self.first_player:
+                return "{0.first_player.name} vs ?".format(self)
+            else:
+                return "? vs {0.second_player.name}".format(self)
 
     def join(self, other_player):
         if self.first_player is None and self.second_player != other_player:

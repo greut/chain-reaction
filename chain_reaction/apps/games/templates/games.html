@@ -1,18 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Games</h1>
+<div class="row">
+  <div class="col"
+  <h1>Games</h1>
 
-<h2>Join a game</h2>
-<ul>
-{% for game in game_list %}
-  <li>
+  <h2>Join a game</h2>
+  <ul>
+  {% for game in game_list %}
+    <li>
       <a href="{% url "game-detail" pk=game.pk %}">{{ game }}</a>
-{% endfor %}
-</ul>
-
-<h2>Create a game</h2>
+  {% endfor %}
+  </ul>
+  </div>
+  <div class=col>
+    <h2>Create a game</h2>
 <form method="POST" action="{% url "game-create" %}">{% csrf_token %}
-  <button type=submit>New game</button>
+  <button type=submit class="btn btn-lg btn-primary btn-block">New game</button>
 </form>
+  </div>
+</div>
 {% endblock %}
