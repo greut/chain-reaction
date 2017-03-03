@@ -5,6 +5,8 @@ import $ from 'jquery'
 import wait from './wait'
 import chain from './chain'
 
+import '../css/game.scss'
+
 const OPEN = 'O'
 const RUNNING = 'R'
 

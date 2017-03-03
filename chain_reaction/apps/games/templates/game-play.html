@@ -1,27 +1,24 @@
-{% extends "base.html" %}
+{% extends "game-base.html" %}
+
 {% load game_extras %}
-{% load render_bundle from webpack_loader %}
 
 {% block content %}
-<h1><span style="color:red">●</span>
-  {{ game.first_player.name }}
-  <b>0</b> vs <b>0</b>
-  {{ game.second_player.name }}
-  <span style="color:green">●</span>
-</h1>
-<h2 id="status"></h2>
-
-<canvas id=game
-  data-ws="/g/{{ game.uuid.hex }}"
-  data-type="{{ game.type }}"
-  data-num="{% game_num game user %}"></canvas>
-
-<p>Game adapted from Madhumitha Viswanathan's version (<a href="https://gist.github.com/madhuvishy/7711874">source</a>)</p>
-
-{% endblock %}
-
-{% block javascript %}
-  {{ block.super }}
-  <script src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.3/fabric.min.js"></script>
-  {% render_bundle 'main' %}
+<div class="row">
+  <div class="col">
+    <h2 class="text-center"><span style="color:red">●</span>
+      {{ game.first_player.name }}
+      <b>0</b> vs <b>0</b>
+      {{ game.second_player.name }}
+      <span style="color:green">●</span>
+    </h2>
+    <p id="status" class="alert" role="alert"></p>
+    <div class="text-center">
+    <canvas id=game
+      data-ws="/g/{{ game.uuid.hex }}"
+      data-type="{{ game.type }}"
+      data-num="{% game_num game user %}"></canvas>
+      <p>Game adapted from Madhumitha Viswanathan's version (<a href="https://gist.github.com/madhuvishy/7711874">source</a>)</p>
+    </div>
+  </div>
+</div>
 {% endblock %}

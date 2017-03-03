@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load render_bundle from webpack_loader %}
+
+{% block css %}
+  {{ block.super }}
+  {% render_bundle 'game' 'css' %}
+{% endblock %}
+
+{% block javascript %}
+  {{ block.super }}
+{% if game.type == game.GameType.Running or game.type == game.GameType.Open %}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.3/fabric.min.js"></script>
+  {% render_bundle 'game' 'js' %}
+{% endif %}
+{% endblock %}

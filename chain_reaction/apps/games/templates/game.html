@@ -1,9 +1,9 @@
-{% extends "base.html" %}
-{% load render_bundle from webpack_loader %}
+{% extends "game-base.html" %}
 
 {% block content %}
-
-<h1>{{ game }}</h1>
+<div class="row">
+  <div class="col">
+    <h2 class="text-center">{{ game }}</h2>
 {% if game.type == game.GameType.Done %}
   <p>This game is done...</p>
 {% else %}
@@ -11,12 +11,6 @@
     En attente des joueurs.
   </div>
 {% endif %}
-{% endblock %}
-
-{% block javascript %}
-  {{ block.super }}
-{% if game.type == game.GameType.Open %}
-  <script src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.3/fabric.min.js"></script>
-  {% render_bundle 'main' %}
-{% endif %}
+  </div>
+</div>
 {% endblock %}

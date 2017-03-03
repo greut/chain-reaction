@@ -19,7 +19,7 @@ var tick = 0;
 var moves = [{x:-1,y:0}, {x:0,y:-1}, {x:0,y:1}, {x:1,y:0}];
 
 function showScore(score) {
-    var title = $("h1"),
+    var title = $("h2"),
         bs = title.find('b')
 
     bs[0].innerText = score[0]
@@ -27,12 +27,16 @@ function showScore(score) {
 }
 
 function showStatus() {
-    var status = $("h2")
+    var status = $("#status")
 
     if (player != num) {
-        status.text("Attente de l'autre joueur...")
+        status.addClass('alert-info')
+            .removeClass('alert-success')
+            .text("Attente de l'autre joueur...")
     } else {
-        status.text('À vous de jouer!')
+        status.addClass('alert-success')
+            .removeClass('alert-info')
+            .text('À vous de jouer!')
     }
 }
 
