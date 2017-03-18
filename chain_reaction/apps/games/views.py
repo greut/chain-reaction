@@ -61,4 +61,14 @@ class GamePlayView(LoginRequiredMixin, DetailView):
 class GameListView(LoginRequiredMixin, ListView):
     template_name = "games.html"
     model = Game
-    queryset = Game.objects.all()
+    ordering = '-id'
+
+    def open_games(self):
+        qs = self.get_queryset()
+        return qs.filter(type=Game.GameType.Open)
+
+    def running_games(self):
+        return self.get_queryset().filter(type=Game.GameType.Running)
+
+    def done_games(self):
+        return self.get_queryset().filter(type=Game.GameType.Done)

@@ -5,7 +5,7 @@ from .models import Game, Play
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('first_player', 'second_player', 'type', 'id', 'uuid')
+    list_display = ('id', 'first_player', 'second_player', 'type', 'uuid')
 
 
 @admin.register(Play)

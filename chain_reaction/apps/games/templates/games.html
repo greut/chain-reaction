@@ -1,23 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="col"
-  <h1>Games</h1>
-
-  <h2>Join a game</h2>
-  <ul>
-  {% for game in game_list %}
-    <li>
-      <a href="{% url "game-detail" pk=game.pk %}">{{ game }}</a>
-  {% endfor %}
-  </ul>
+<div class="row mt-4 mb-4">
+  <div class="col">
+    <h1>Games</h1>
   </div>
   <div class=col>
-    <h2>Create a game</h2>
-<form method="POST" action="{% url "game-create" %}">{% csrf_token %}
-  <button type=submit class="btn btn-lg btn-primary btn-block">New game</button>
-</form>
+    <form method="POST" action="{% url "game-create" %}" class="text-right">{% csrf_token %}
+      <button type=submit class="btn btn-lg btn-primary">New game</button>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <h2>Join any game</h2>
+    <ul>
+    {% for game in view.open_games %}
+      <li>
+        <a href="{% url "game-detail" pk=game.pk %}">{{ game }}</a>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="col">
+    <h2>Live games</h2>
+    <ul>
+    {% for game in view.running_games %}
+      <li>
+        <a href="{% url "game-detail" pk=game.pk %}">{{ game }}</a>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="col">
+    <h2>Previous games</h2>
+    <ul>
+    {% for game in view.done_games %}
+      <li>
+        <a href="{% url "game-detail" pk=game.pk %}">{{ game }}</a>
+    {% endfor %}
+    </ul>
   </div>
 </div>
 {% endblock %}
