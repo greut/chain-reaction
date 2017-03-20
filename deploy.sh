@@ -10,4 +10,6 @@ git pull
 python manage.py migrate
 python manage.py collectstatic --noinput
 sudo sv restart uwsgi
+sudo sv restart daphne
+sudo sv restart worker
 sudo sv reload nginx
