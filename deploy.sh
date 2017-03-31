@@ -5,6 +5,7 @@ set -xe
 . ~/.bash_profile
 cd www/app
 . bin/activate
+pip install --upgrade -r requirements/production.txt
 export DJANGO_SETTINGS_MODULE=chain_reaction.settings.production
 git pull
 python manage.py migrate
