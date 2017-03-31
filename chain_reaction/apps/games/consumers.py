@@ -38,7 +38,11 @@ def ws_connect(message):
 
 @channel_session_user
 def ws_message(message):
-    room = message.channel_session['room']
+    room = message.channel_session.get('room')
+    if not room:
+        print("no room")
+        return
+
     group = Group('chat-{}'.format(room))
 
     game = Game.objects.get(pk=room)
@@ -49,10 +53,12 @@ def ws_message(message):
             game.save()
 
             group.send({
-                'text': json.dumps({
-                    'action': 'joined',
-                    'url': reverse(
-                        'game-play', kwargs={"uuid": str(game.uuid)})
+                'text':
+                json.dumps({
+                    'action':
+                    'joined',
+                    'url':
+                    reverse('game-play', kwargs={"uuid": str(game.uuid)})
                 })
             })
         else:
@@ -60,11 +66,12 @@ def ws_message(message):
 
     elif data['action'] == 'start':
         group.send({
-            'text': json.dumps({
-                'action': 'start',
+            'text':
+            json.dumps({
+                'action':
+                'start',
                 'plays': [
-                    model_to_dict(
-                        play, fields=('turn', 'x', 'y'))
+                    model_to_dict(play, fields=('turn', 'x', 'y'))
                     for play in game.play_set.order_by('turn')
                 ]
             })
@@ -89,15 +96,18 @@ def ws_message(message):
             game.save()
 
         group.send({
-            'text': json.dumps({
+            'text':
+            json.dumps({
                 'action': 'done',
-                'url': reverse(
-                    'game-detail', kwargs={"pk": game.pk})
+                'url': reverse('game-detail', kwargs={"pk": game.pk})
             })
         })
 
 
 @channel_session_user
 def ws_disconnect(message):
-    room = message.channel_session['room']
+    room = message.channel_session.get('room')
+    if not room:
+        print("no room")
+        return
     Group('chat-{}'.format(room)).discard(message.reply_channel)

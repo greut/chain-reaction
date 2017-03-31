@@ -57,9 +57,9 @@ function chain(ws, elem)
     num = elem.data('num')
     let started = false;
 
-    ws.onmessage = function(e) {
-        var data = JSON.parse(e.data)
-        console.log(data)
+    ws.listen((action, stream) => {
+        var data = action
+        console.log(action, stream)
 
         if (data.action === 'done') {
           console.log('game is done')
@@ -83,12 +83,12 @@ function chain(ws, elem)
 
                 // Update the score.
               if (player !== num) {
-                  ws.send(JSON.stringify({
+                  ws.send({
                     tick: tick,
                     player: num,
                     action: 'score',
                     score: counts
-                }))
+                })
               }
 
                 if (turns >= 2) {
@@ -101,7 +101,7 @@ function chain(ws, elem)
                                 tick: tick,
                                 player: num
                             }
-                            ws.send(JSON.stringify(message))
+                            ws.send(message)
                         } else {
                             alert("You lose!")
                         }
@@ -111,10 +111,10 @@ function chain(ws, elem)
                 }
             })
         }
-    }
+    })
 
-    ws.onopen = function() {
-        ws.send(JSON.stringify({action: 'start'}))
+    ws.socket.onopen = () => {
+        ws.send({action: 'start'})
     }
 
     var flipPlayers = function() {
@@ -155,7 +155,7 @@ function chain(ws, elem)
                     y: targetRect.yposition
                 }
 
-                ws.send(JSON.stringify(message))
+                ws.send(message)
             }
         }
     };

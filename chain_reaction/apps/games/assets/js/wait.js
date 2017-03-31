@@ -1,14 +1,14 @@
 function wait(ws) {
-    ws.onopen = e => {
-        ws.send(JSON.stringify({action: 'join'}))
+    ws.socket.onopen = () => {
+        ws.send({action: 'join'})
     }
 
-    ws.onmessage = e => {
-        const data = JSON.parse(e.data)
-        if ("url" in data) {
-            window.location = data.url
+    ws.listen((action, stream) => {
+        console.log(action, stream)
+        if ("url" in action) {
+            window.location = action.url
         }
-    }
+    })
 }
 
 module.exports = wait

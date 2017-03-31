@@ -1,6 +1,7 @@
 "use strict";
 
 import $ from 'jquery'
+import { WebSocketBridge } from 'django-channels'
 
 import wait from './wait'
 import chain from './chain'
@@ -11,7 +12,6 @@ const OPEN = 'O'
 const RUNNING = 'R'
 
 $(() => {
-    // WebSocket can also be running through HTTPS
     const proto = document.location.protocol === 'https:' ? 'wss:' : 'ws:'
     // Development setup uses 8000 for http and 8001 for ws
     // while production shares the same port thanks to nginx.
@@ -25,15 +25,14 @@ $(() => {
         return
     }
 
-    const ws = new WebSocket(proto + '//' + location.hostname + ':' + port + '/ws' + wsUrl)
+    const ws = new WebSocketBridge()
+    ws.connect(proto + '//' + location.hostname + ':' + port + '/ws' + wsUrl)
+    // monkeypatch WSB
+    if (!ws.socket) { ws.socket = ws._socket }
 
     if (game.data('type') == OPEN) {
         wait(ws)
     } else {
         chain(ws, game)
-    }
-
-    if (ws.readyState == WebSocket.OPEN) {
-        ws.onopen()
     }
 })
