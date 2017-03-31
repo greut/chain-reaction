@@ -28,8 +28,9 @@ $(() => {
     const ws = new WebSocketBridge()
     ws.connect(proto + '//' + location.hostname + ':' + port + '/ws' + wsUrl)
     // monkeypatch WSB
-    if (!ws.socket) { ws.socket = ws._socket }
+    if (typeof ws.socket == "undefined") { ws.socket = ws._socket }
 
+    console.log(game.data('type'))
     if (game.data('type') == OPEN) {
         wait(ws)
     } else {

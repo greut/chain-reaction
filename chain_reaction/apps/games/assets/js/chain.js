@@ -113,9 +113,10 @@ function chain(ws, elem)
         }
     })
 
-    ws.socket.onopen = () => {
+    ws.socket.addEventListener('open', () => {
+        console.log('starting')
         ws.send({action: 'start'})
-    }
+    })
 
     var flipPlayers = function() {
         turns++;
