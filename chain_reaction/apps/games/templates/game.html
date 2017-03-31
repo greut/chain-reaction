@@ -10,7 +10,9 @@
 
 {% block javascript %}
   {{ block.super }}
+{% if game.type == game.GameType.Done %}
   {% load_chart view.chart.type view.chart.data "stats" view.chart.extra %}
+{% endif %}
 {% endblock %}
 
 {% block content %}
