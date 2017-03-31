@@ -33,6 +33,36 @@ class GameDetailView(LoginRequiredMixin, DetailView):
     template_name = "game.html"
     model = Game
 
+    def chart(self):
+        game = self.get_object()
+        if game.type == Game.GameType.Done:
+            x = []
+            y1 = []
+            y2 = []
+            for i, play in enumerate(game.play_set.order_by('id').all()):
+                x.append(i + 1)
+                y1.append(play.first_score)
+                y2.append(play.second_score)
+            return {
+                "type": "lineChart",
+                "data": {
+                    "x": x,
+                    "name1": game.first_player.name,
+                    "y1": y1,
+                    "name2": game.second_player.name,
+                    "y2": y2
+                },
+                "extra": {
+                    "x_is_date": False,
+                    "x_axis_format": "d",
+                    "y_is_date": False,
+                    "y_axis_format": "d",
+                    "jquery_on_ready": True,
+                    "use_interactive_guideline": True
+                }
+            }
+        return None
+
     def dispatch(self, request, *args, **kwargs):
         game = self.get_object()
         if ((game.first_player == request.user or

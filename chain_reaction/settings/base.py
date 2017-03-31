@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'authtools',
     'channels',
     'django_extensions',
+    'django_nvd3',
     'social_django',
     'webpack_loader',
     'crispy_forms',

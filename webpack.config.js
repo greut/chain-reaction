@@ -7,6 +7,7 @@ module.exports = {
     context: __dirname,
     entry: {
         'game': './chain_reaction/apps/games/assets/js/game',
+        'stats': './chain_reaction/apps/games/assets/js/stats',
         'main': './chain_reaction/assets/js/main',
     },
     output: {
@@ -41,6 +42,8 @@ module.exports = {
     externals: {
         jquery: "jQuery",
         tether: "Tether",
-        fabric: "fabric"
+        fabric: "fabric",
+        d3: "d3",
+        nvd3: "nv"
     }
 }

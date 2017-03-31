@@ -1,14 +1,28 @@
 {% extends "game-base.html" %}
+{% load nvd3_tags %}
+
+{% block css %}
+  {{ block.super }}
+  {% if game.type == game.GameType.Done %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.5/nv.d3.min.css" type="text/css">
+  {% endif %}
+{% endblock %}
+
+{% block javascript %}
+  {{ block.super }}
+  {% load_chart view.chart.type view.chart.data "stats" view.chart.extra %}
+{% endblock %}
 
 {% block content %}
 <div class="row">
   <div class="col">
     <h2 class="text-center">{{ game }}</h2>
 {% if game.type == game.GameType.Done %}
-  <p>This game is done...</p>
+    <p>This game is done. Enjoy some stats about it.</p>
+    {% include_container "stats" 210 "100%" %}
 {% else %}
   <div id=game data-ws="/game/{{ game.pk }}" data-type="{{ game.type }}">
-    En attente des joueurs.
+    <p>Waiting for another player. Be patient.</p>
   </div>
 {% endif %}
   </div>

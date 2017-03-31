@@ -10,7 +10,11 @@
 {% block javascript %}
   {{ block.super }}
 {% if game.type == game.GameType.Running or game.type == game.GameType.Open %}
-  <script src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.3/fabric.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.9/fabric.min.js" integrity="sha256-D5qjlhHft5LNta9Zzei8iPWEAGyIQt6JkWftlBA81yk=" crossorigin="anonymous"></script>
   {% render_bundle 'game' 'js' %}
+{% elif game.type == game.GameType.Done %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" integrity="sha256-dsOXGNHAo/syFnazt+KTBsCQeRmlcW1XKL0bCK4Baec=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.5/nv.d3.min.js" integrity="sha256-TZsIPp2HRsOYQnuh40YjLEpRCvZ6h8lVBrvIm6uCeww=" crossorigin="anonymous"></script>
+  {% render_bundle 'stats' 'js' %}
 {% endif %}
 {% endblock %}

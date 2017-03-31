@@ -12,6 +12,7 @@ django-webpack-loader>=0.4.1
 django-crispy-forms>=1.6.1
 django-redis>=4.7
 django-registration-redux>=1.4
+django-nvd3>=0.9.7
 
 psycopg2>=2.7
 
