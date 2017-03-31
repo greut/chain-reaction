@@ -115,9 +115,12 @@ STATICFILES_DIRS = (root('assets'), )
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     'APP_DIRS': True,
-    'DIRS': [root('templates'), ],
+    'DIRS': [
+        root('templates'),
+    ],
     'OPTIONS': {
-        'debug': DEBUG,
+        'debug':
+        DEBUG,
         'context_processors': [
             'django.contrib.auth.context_processors.auth',
             'django.template.context_processors.debug',
@@ -195,6 +198,22 @@ CHANNEL_LAYERS = {
     }
 }
 
+# Cache
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        }
+    }
+}
+
+# Session
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
 # .local.py overrides all the common settings.
 try:
     from .local import *  # noqa
@@ -202,7 +221,11 @@ try:
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE_CLASSES.insert(
         0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-    CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [(REDIS_HOST, REDIS_PORT), ]
+    CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [
+        (REDIS_HOST, REDIS_PORT),
+    ]
+    CACHES['default']['LOCATION'] = "redis://{}:{}/1".format(
+        REDIS_HOST, REDIS_PORT)
 except ImportError:
     pass
 
