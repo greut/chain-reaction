@@ -2,6 +2,7 @@ function wait(ws) {
     ws.listen((action, stream) => {
         console.log(action, stream)
         if ("url" in action) {
+            ws.close()
             window.location = action.url
         }
     })

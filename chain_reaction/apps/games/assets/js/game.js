@@ -30,7 +30,6 @@ $(() => {
     // monkeypatch WSB
     if (typeof ws.socket == "undefined") { ws.socket = ws._socket }
 
-    console.log(game.data('type'))
     if (game.data('type') == OPEN) {
         wait(ws)
     } else {

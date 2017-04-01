@@ -194,6 +194,7 @@ CHANNEL_LAYERS = {
         'BACKEND': 'asgi_redis.RedisChannelLayer',
         'CONFIG': {
             'hosts': [('localhost', 6379)],
+            'symmetric_encryption_keys': [SECRET_KEY],
         },
         'ROUTING': 'chain_reaction.routing.channel_routing',
     }
