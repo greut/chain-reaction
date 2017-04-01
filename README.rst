@@ -155,3 +155,12 @@ Deployment
     $ run daphne # see Procfile
     $ run worker # see Procfile
     $ configure nginx.conf ... # todo
+
+Poor man's Capistrano
+^^^^^^^^^^^^^^^^^^^^^
+
+Adapt and upload ``deploy.sh`` to your server and run it through ``ssh``.
+
+.. code:: console
+
+    $ ssh srvz path/to/deploy.sh
