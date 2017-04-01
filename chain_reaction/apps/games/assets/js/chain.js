@@ -2,7 +2,7 @@ import $ from 'jquery'
 import fabric from 'fabric'
 
 var gameGridSize = 8, boxSize = 60,  player = 0, turns = 0;
-var playerColors = ["red", "green"];
+var playerColors = [["red", "lightred"], ["green", "lightgreen"]];
 var rectProperties = {left: 1, top: 1, fill: "#e5e5e5", width: boxSize-1, height: boxSize-1, hoverCursor: "pointer", selectable: true, lockMovementX: true,
 lockMovementY: true, lockRotation: true, hasControls: false};
 var circleProperties = {radius: boxSize/5, fill: "#e5e5e5", left: 4, top: 4, hoverCursor: "pointer", selectable: true, lockMovementX: true,
@@ -57,10 +57,7 @@ function chain(ws, elem)
     num = elem.data('num')
     let started = false;
 
-    ws.listen((action, stream) => {
-        var data = action
-        console.log(action, stream)
-
+    ws.listen((data, stream) => {
         if (data.action === 'done') {
           console.log('game is done')
 
@@ -74,7 +71,7 @@ function chain(ws, elem)
               started = true
               start(data.plays.slice())
             }
-        } else if(data.action === 'play') {
+        } else if (data.action === 'play') {
             tick = data.tick
             chainReact(gridSquares[data.x][data.y], function() {
                 var counts = score()
@@ -82,31 +79,30 @@ function chain(ws, elem)
                 showStatus()
 
                 // Update the score.
-              if (player !== num) {
-                  ws.send({
-                    tick: tick,
-                    player: num,
-                    action: 'score',
-                    score: counts
-                })
-              }
+                if (player !== num) {
+                    console.log('score', counts)
+                    ws.send({
+                        tick: tick,
+                        player: num,
+                        action: 'score',
+                        score: counts
+                    })
+                }
 
                 if (turns >= 2) {
                     if (counts.indexOf(0) > -1) {
                         if (player !== num) {
                             alert("You win!")
 
-                            const message = {
+                            ws.send({
                                 action: 'close',
                                 tick: tick,
                                 player: num
-                            }
-                            ws.send(message)
+                            })
                         } else {
                             alert("You lose!")
                         }
                         canvas.off("mouse.down", startReaction)
-                        ws.close()
                     }
                 }
             })
@@ -126,7 +122,7 @@ function chain(ws, elem)
         else{
             player = 0;
         }
-        canvas.backgroundColor = playerColors[player];
+        canvas.backgroundColor = playerColors[player][0];
         canvas.renderAll(true);
     };
 
@@ -168,8 +164,8 @@ function chain(ws, elem)
         }
         for(var circCounter = 0; circCounter < max; circCounter++){
             rect.circles[circCounter].set('fill', color)
-            canvas.renderAll(true);
         }
+        canvas.renderAll(true);
     }
 
     var chainReact = function(rect, cb) {
@@ -181,7 +177,7 @@ function chain(ws, elem)
             rect.selectedCircles += 1
             if (rect.selectedCircles < rect.maxCircles) {
                 rect.player = player;
-                fillColors(rect, playerColors[player]);
+                fillColors(rect, playerColors[player][0]);
                 flipPlayers();
             }
             if (rect.selectedCircles === rect.maxCircles) {
@@ -224,14 +220,14 @@ function chain(ws, elem)
                         rect.initialState = false;
                     }
                     rect.player = player;
-                    fillColors(rect, playerColors[player]);
+                    fillColors(rect, playerColors[player][0]);
                 }
             }
         }
     };
     var buildGameCanvas = function() {
         //Properties for the Canvas
-        canvas.backgroundColor = playerColors[0];
+        canvas.backgroundColor = playerColors[0][0];
         canvas.setDimensions({width: gameGridSize*boxSize+1, height: gameGridSize*boxSize+1});
         //Adding the squares to the grid
         for(var walker = 0; walker < gameGridSize; walker++) {
