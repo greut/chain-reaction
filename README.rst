@@ -1,6 +1,9 @@
 Chain Reaction
 ==============
 
+.. image:: https://travis-ci.org/greut/chain-reaction.svg?branch=master
+    :target: https://travis-ci.org/greut/chain-reaction
+
 Le game.
 
 Setup
