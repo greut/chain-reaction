@@ -14,3 +14,7 @@ DATABASES = {
         'NAME': 'chain_reaction.db',
     }
 }
+
+# Hacks
+INSTALLED_APPS.remove('games')
+INSTALLED_APPS.append('chain_reaction.apps.games')
