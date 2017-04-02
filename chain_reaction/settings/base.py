@@ -13,7 +13,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'CHANGE THIS!!!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-IN_TESTING = sys.argv[1:2] == ['test']
+IN_TESTING = (sys.argv[1:2] == ['test'] or
+              os.path.basename(sys.argv[0]) == 'pytest')
 
 ALLOWED_HOSTS = []
 
@@ -217,20 +218,22 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
 # .local.py overrides all the common settings.
-try:
-    from .local import *  # noqa
-
-    INSTALLED_APPS.append('debug_toolbar')
-    MIDDLEWARE_CLASSES.insert(
-        0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-    CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [
-        (REDIS_HOST, REDIS_PORT),
-    ]
-    CACHES['default']['LOCATION'] = "redis://{}:{}/1".format(
-        REDIS_HOST, REDIS_PORT)
-except ImportError:
-    pass
-
 # importing test settings file if necessary
 if IN_TESTING:
     from .testing import *  # noqa
+
+    del CACHES['default']
+else:
+    try:
+        from .local import *  # noqa
+
+        INSTALLED_APPS.append('debug_toolbar')
+        MIDDLEWARE_CLASSES.insert(
+            0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+        CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [
+            (REDIS_HOST, REDIS_PORT),
+        ]
+        CACHES['default']['LOCATION'] = "redis://{}:{}/1".format(
+            REDIS_HOST, REDIS_PORT)
+    except ImportError:
+        pass
