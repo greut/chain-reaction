@@ -1,5 +1,5 @@
 -r base.txt
 
-fakeredis
-mock
-model-mommy
+fakeredis>=0.8
+mock>=2.0
+model-mommy>=1.3
