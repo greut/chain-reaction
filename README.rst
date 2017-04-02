@@ -1,13 +1,17 @@
+==============
 Chain Reaction
 ==============
 
 .. image:: https://travis-ci.org/greut/chain-reaction.svg?branch=master
-    :target: https://travis-ci.org/greut/chain-reaction
+   :target: https://travis-ci.org/greut/chain-reaction
+
+.. image:: https://coveralls.io/repos/github/greut/chain-reaction/badge.svg?branch=master
+   :target: https://coveralls.io/github/greut/chain-reaction?branch=master
 
 Le game.
 
 Setup
------
+=====
 
 .. code:: console
 
@@ -78,10 +82,10 @@ And continue.
 Profit!
 
 Social Login
-------------
+============
 
 Google OAuth 2.0
-++++++++++++++++
+----------------
 
 Create a project on Google APIs, enable Google+ API and follow the instructions.
 
@@ -94,7 +98,7 @@ Create a project on Google APIs, enable Google+ API and follow the instructions.
 `Documentation <http://python-social-auth-docs.readthedocs.io/en/latest/backends/google.html#google-oauth2>`_
 
 Facebook OAuth 2.0
-++++++++++++++++++
+------------------
 
 Create an appliation on Facebook developers and enable Facebook Login.
 
@@ -103,7 +107,7 @@ Create an appliation on Facebook developers and enable Facebook Login.
 `Documentation <http://python-social-auth-docs.readthedocs.io/en/latest/backends/facebook.html>`_
 
 GitHub OAuth 2.0
-++++++++++++++++
+----------------
 
 Create a new application on Github.
 
@@ -115,7 +119,7 @@ For Github, you must create at least two applications for production and
 development as you cannot entre more than one callback URL.
 
 No Github?
-----------
+==========
 
 Syncing with a remote repository (or just use Github).
 
@@ -127,7 +131,7 @@ Syncing with a remote repository (or just use Github).
 
 
 Assets
-------
+======
 
 The assets must be rebuild if you change anything.
 
@@ -140,7 +144,7 @@ The assets must be rebuild if you change anything.
 
 
 Deployment
-----------
+==========
 
 .. code:: console
 
@@ -160,7 +164,7 @@ Deployment
     $ configure nginx.conf ... # todo
 
 Poor man's Capistrano
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
 
 Adapt and upload ``deploy.sh`` to your server and run it through ``ssh``.
 
