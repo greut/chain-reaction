@@ -17,6 +17,6 @@ django-nvd3>=0.9.7
 psycopg2>=2.7
 
 channels>=1.1.2
-asgi_redis[cryptography]>=1.2
+asgi_redis[cryptography]>=1.2.1
 
 social-auth-app-django>=1.1
