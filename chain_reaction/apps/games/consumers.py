@@ -1,5 +1,6 @@
 import re
 import json
+import logging
 
 from channels import Group
 from channels.auth import channel_session_user, channel_session_user_from_http
@@ -8,6 +9,10 @@ from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 
 from .models import Game
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler())
 
 
 def get_group_and_game(message):
@@ -137,6 +142,8 @@ def ws_connect(message):
     group, game = get_group_and_game(message)
 
     if game:
+        logger.info('accept game: %s', game)
+
         group.add(message.reply_channel)
 
         if game.type in (Game.GameType.Open, Game.GameType.Running):
@@ -160,16 +167,19 @@ def ws_connect(message):
                 }
             })
         })
-        print("no game", game)
+        message.reply_channel.send({'accept': True})
+        logger.error("No game")
 
 
 @channel_session_user
 def ws_message(message):
     data = json.loads(message.content['text'])
+    logger.debug("%s: %s", data['stream'], data['payload'])
     return streams[data['stream']](message, data['payload'])
 
 
 @channel_session_user
 def ws_disconnect(message):
-    group, _ = get_group_and_game(message)
+    group, game = get_group_and_game(message)
+    logger.info('disconnect game: %s', game)
     group.discard(message.reply_channel)
