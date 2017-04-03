@@ -57,23 +57,40 @@ function chain(ws, elem)
     num = elem.data('num')
     let started = false;
 
-    ws.listen((data, stream) => {
-        if (data.action === 'done') {
-          console.log('game is done')
+    ws.listen((action, stream) => {
+        console.log('*', action, stream)
+    })
 
-          if ("url" in data) {
-              window.location = data.url
-          }
-        } else if (data.action === 'start') {
-            console.log('game is starting')
-            tick = data.plays.length ? data.plays[data.plays.length - 1].turn : 0
-            if (!started) {
-              started = true
-              start(data.plays.slice())
+    ws.demultiplex('control', (action, stream) => {
+        console.log('control', action, stream)
+        if (action.action === 'done') {
+            if ("url" in action) {
+                window.location = action.url
             }
-        } else if (data.action === 'play') {
-            tick = data.tick
-            chainReact(gridSquares[data.x][data.y], function() {
+        } else if (action.action === 'start') {
+            tick = action.plays.length ? action.plays[action.plays.length - 1].turn : 0
+            if (!started) {
+                started = true
+                start(action.plays.slice())
+            }
+        } else if (action.action === 'joined') {
+            ws.stream('control').send({action: 'start'})
+        } else if (action.action === 'info') {
+            console.info(action.message)
+        }
+    })
+
+    ws.demultiplex('play', (action, stream) => {
+        console.log('play', action, stream)
+        tick = action.tick
+        if (action.player != num) {
+            play(action.x, action.y)
+        }
+    })
+
+    function play(x, y) {
+        chainReact(gridSquares[x][y])
+            .then(() => {
                 var counts = score()
                 showScore(counts)
                 showStatus()
@@ -81,38 +98,36 @@ function chain(ws, elem)
                 // Update the score.
                 if (player !== num) {
                     console.log('score', counts)
-                    ws.send({
+                    ws.stream('score').send({
                         tick: tick,
                         player: num,
-                        action: 'score',
                         score: counts
                     })
                 }
 
-                if (turns >= 2) {
-                    if (counts.indexOf(0) > -1) {
-                        if (player !== num) {
-                            alert("You win!")
-
-                            ws.send({
-                                action: 'close',
-                                tick: tick,
-                                player: num
-                            })
-                        } else {
-                            alert("You lose!")
-                        }
-                        canvas.off("mouse.down", startReaction)
-                    }
-                }
+                done(counts);
             })
-        }
-    })
+    }
 
-    ws.socket.addEventListener('open', () => {
-        console.log('starting')
-        ws.send({action: 'start'})
-    })
+    function done(counts) {
+        if (turns >= 2 && counts.indexOf(0) > -1) {
+            if (player !== num) {
+                alert("You win!")
+            } else {
+                alert("You lose!")
+            }
+
+            ws.stream('control').send({
+                action: 'close',
+                tick: tick
+            })
+
+            canvas.off("mouse.down", startReaction)
+            return true
+        }
+
+        return false
+    }
 
     var flipPlayers = function() {
         turns++;
@@ -144,15 +159,13 @@ function chain(ws, elem)
                     targetRect = options.target.square;
                 }
 
-                const message = {
+                play(targetRect.xposition, targetRect.yposition)
+                ws.stream('play').send({
                     tick: ++tick,
                     player: num,
-                    action: 'play',
                     x: targetRect.xposition,
                     y: targetRect.yposition
-                }
-
-                ws.send(message)
+                })
             }
         }
     };
@@ -168,37 +181,39 @@ function chain(ws, elem)
         canvas.renderAll(true);
     }
 
-    var chainReact = function(rect, cb) {
-        if (rect.initialState) {
-            rect.initialState = false;
-            rect.player = player;
-        }
-        if (rect.player === player){
-            rect.selectedCircles += 1
-            if (rect.selectedCircles < rect.maxCircles) {
+    var chainReact = function(rect) {
+        return new Promise((resolve, reject) => {
+            if (rect.initialState) {
+                rect.initialState = false;
                 rect.player = player;
-                fillColors(rect, playerColors[player][0]);
-                flipPlayers();
             }
-            if (rect.selectedCircles === rect.maxCircles) {
-                var explosions = [rect]
-
-                var f = function() {
-                    var r = explosions.shift();
-                    if (typeof r !== "undefined") {
-                        explode(r, explosions)
-                        window.setTimeout(f)
-                    } else {
-                        flipPlayers()
-                        if (cb) cb()
-                    }
+            if (rect.player === player){
+                rect.selectedCircles += 1
+                if (rect.selectedCircles < rect.maxCircles) {
+                    rect.player = player;
+                    fillColors(rect, playerColors[player][0]);
+                    flipPlayers();
                 }
+                if (rect.selectedCircles === rect.maxCircles) {
+                    var explosions = [rect]
 
-                window.setTimeout(f, 0)
-            } else {
-                if (cb) cb();
+                    var f = function() {
+                        var r = explosions.shift();
+                        if (typeof r !== "undefined") {
+                            explode(r, explosions)
+                            window.setTimeout(f)
+                        } else {
+                            flipPlayers()
+                            resolve()
+                        }
+                    }
+
+                    window.setTimeout(f, 0)
+                } else {
+                    resolve();
+                }
             }
-        }
+        })
     }
 
     var explode = function(r, explosions) {
@@ -292,22 +307,25 @@ function chain(ws, elem)
     }
 
     var start = function(plays) {
-        reset();
+        reset()
 
-        function x() {
-          if (plays.length) {
-            chainReact(gridSquares[plays[0].x][plays[0].y], function() {
-              showScore(score())
+        ;(function x() {
+            if (plays.length) {
+                chainReact(gridSquares[plays[0].x][plays[0].y])
+                    .then(() => {
+                        var counts = score()
+                        showScore(counts)
 
-              plays.shift()
-              window.setTimeout(x, 200)
-            })
-          } else {
-            showStatus()
-            canvas.on('mouse:down', startReaction);
-          }
-        }
-        window.setTimeout(x, 200)
+                        if (!done(counts)) {
+                            plays.shift()
+                            window.setTimeout(x, 200)
+                        }
+                    })
+            } else {
+                showStatus()
+                canvas.on('mouse:down', startReaction);
+            }
+        })()
     }
 }
 
