@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^accounts/', include('authtools.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'', include('social_django.urls', namespace='social')),
-    url(r'', include('chain_reaction.apps.games.urls')),
+    url(r'', include('games.urls')),
 ]
 
 if settings.DEBUG:

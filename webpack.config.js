@@ -6,8 +6,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
     context: __dirname,
     entry: {
-        'game': './chain_reaction/apps/games/assets/js/game',
-        'stats': './chain_reaction/apps/games/assets/js/stats',
+        'game': './games/assets/js/game',
+        'stats': './games/assets/js/stats',
         'main': './chain_reaction/assets/js/main',
     },
     output: {
