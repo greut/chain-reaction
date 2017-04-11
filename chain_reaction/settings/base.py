@@ -6,7 +6,8 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 root = lambda *x: os.path.join(BASE_DIR, *x)
 
-sys.path.insert(0, root('apps'))
+# https://github.com/marcofucci/cookiecutter-simple-django/issues/15
+#sys.path.insert(0, root('apps'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'CHANGE THIS!!!')
@@ -35,8 +36,8 @@ INSTALLED_APPS = [
     'social_django',
     'webpack_loader',
     'crispy_forms',
-    'myauth',
-    'games',
+    'chain_reaction.apps.myauth',
+    'chain_reaction.apps.games',
 ]
 
 PROJECT_APPS = []
@@ -221,8 +222,6 @@ SESSION_CACHE_ALIAS = "default"
 # importing test settings file if necessary
 if IN_TESTING:
     from .testing import *  # noqa
-
-    del CACHES['default']
 else:
     try:
         from .local import *  # noqa

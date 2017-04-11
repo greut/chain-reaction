@@ -1,12 +1,6 @@
 from .base import *  # noqa
 
-CACHES = {
-    "default": {
-        "OPTIONS": {
-            "REDIS_CLIENT_CLASS": "fakeredis.FakeStrictRedis"
-        }
-    }
-}
+CACHES["default"] = {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}
 
 DATABASES = {
     'default': {
@@ -14,7 +8,3 @@ DATABASES = {
         'NAME': 'chain_reaction.db',
     }
 }
-
-# Hacks
-INSTALLED_APPS.remove('games')
-INSTALLED_APPS.append('chain_reaction.apps.games')

@@ -6,15 +6,16 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('authtools.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
-    url(r'', include(
-        'social_django.urls', namespace='social')),
-    url(r'', include('games.urls')),
+    url(r'', include('social_django.urls', namespace='social')),
+    url(r'', include('chain_reaction.apps.games.urls')),
 ]
 
 if settings.DEBUG:
     try:
         import debug_toolbar
-        urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls)), ]
+        urlpatterns += [
+            url(r'^__debug__/', include(debug_toolbar.urls)),
+        ]
     except ImportError:
         pass
 
