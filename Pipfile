@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django-authtools = ">=1.5"
+django-extensions = ">=1.7"
+django-model-utils = ">=2.6"
+django-choices = ">=1.5"
+django-webpack-loader = ">=0.4.1"
+django-crispy-forms = ">=1.6.1"
+django-redis = ">=4.7"
+django-registration-redux = ">=1.4"
+"django-nvd3" = ">=0.9.7"
+psycopg2-binary = ">=2.7"
+channels = ">=1.1.2,<2"
+social-auth-app-django = ">=1.1"
+Django = ">=1.10,<2.0"
+asgi_redis = {version = ">=1.2.1", extras = ["cryptography"]}
+
+[dev-packages]
+Sphinx = "*"
+django-debug-toolbar = ">=1.6"
+honcho = "*"
+mock = ">=2.0"
+model-mommy = ">=1.3"
+tox = "*"
+
+[requires]
+python_version = "3.7"

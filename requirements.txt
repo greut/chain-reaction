@@ -1,3 +1,51 @@
-# This file is here because many Platforms as a Service look for
-#	requirements.txt in the root directory of a project.
--r requirements/production.txt
+-i https://pypi.org/simple
+asgi-redis[cryptography]==1.4.3
+asgiref==1.1.2
+asn1crypto==0.24.0
+attrs==18.2.0
+autobahn==19.2.1
+automat==0.7.0
+certifi==2018.11.29
+cffi==1.12.2
+channels==1.1.8
+chardet==3.0.4
+constantly==15.1.0
+cryptography==2.6.1 ; extra == 'cryptography'
+daphne==1.4.2
+defusedxml==0.5.0 ; python_version >= '3.0'
+django-authtools==1.6.0
+django-choices==1.6.2
+django-crispy-forms==1.7.2
+django-extensions==2.1.6
+django-model-utils==3.1.2
+django-nvd3==0.9.7
+django-redis==4.10.0
+django-registration-redux==2.5
+django-webpack-loader==0.6.0
+django==1.11.20
+hyperlink==18.0.0
+idna==2.8
+incremental==17.5.0
+jinja2==2.10
+markupsafe==1.1.1
+msgpack-python==0.5.6
+oauthlib==3.0.1
+psycopg2-binary==2.7.7
+pycparser==2.19
+pyhamcrest==1.9.0
+pyjwt==1.7.1
+python-nvd3==0.14.2
+python-slugify==1.1.4
+python3-openid==3.1.0 ; python_version >= '3.0'
+pytz==2018.9
+redis==2.10.6
+requests-oauthlib==1.2.0
+requests==2.21.0
+six==1.12.0
+social-auth-app-django==3.1.0
+social-auth-core==3.1.0
+twisted==18.9.0
+txaio==18.8.1
+unidecode==1.0.23
+urllib3==1.24.1
+zope.interface==4.6.0

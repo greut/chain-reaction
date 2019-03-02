@@ -1,4 +1,0 @@
--r base.txt
-
-mock>=2.0
-model-mommy>=1.3

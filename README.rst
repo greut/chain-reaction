@@ -15,7 +15,7 @@ Setup
 
 .. code:: console
 
-    $ pip install -r requirements/local.txt
+    $ pipenv install --dev
     $ docker-compose up -d
 
 Create the ``chain_reaction/settings/local.py`` file:
@@ -73,11 +73,12 @@ And continue.
 .. code:: console
 
 
-    $ export DJANGO_SETTINGS_MODULE=chain_reaction.settings.local
-    $ python manage.py migrate
-    $ python manage.py createsuperuser
-    $ python manage.py collectstatic
-    $ honcho start
+    $ pipenv shell
+    (chain-reaction) $ export DJANGO_SETTINGS_MODULE=chain_reaction.settings.local
+    (chain-reaction) $ python manage.py migrate
+    (chain-reaction) $ python manage.py createsuperuser
+    (chain-reaction) $ python manage.py collectstatic
+    (chain-reaction) $ honcho start
 
 Profit!
 
@@ -142,6 +143,12 @@ The assets must be rebuild if you change anything.
     # or
     $ npm run watch
 
+Updating requirements
+=====================
+
+.. code:: console
+
+   $ pipenv lock -r > requirements.txt
 
 Deployment
 ==========
@@ -154,7 +161,7 @@ Deployment
     $ python3 -m venv venv
     $ . venv/bin/activate
     $ pip install -U pip
-    $ pip install -r requirements/production.txt
+    $ pip install -r requirements.txt
     $ python manage.py migrate
     $ python manage.py createsuperuser
     $ python manage.py collectstatic
