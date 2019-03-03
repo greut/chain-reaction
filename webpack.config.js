@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const BundleTracker = require('webpack-bundle-tracker')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     context: __dirname,
@@ -15,8 +15,14 @@ module.exports = {
         filename: '[name]-[hash].js'
     },
     plugins: [
-        new BundleTracker({filename: './webpack-stats.json'}),
-        new ExtractTextPlugin('[name]-[contenthash].css'),
+        new BundleTracker({
+            path: __dirname,
+            filename: './webpack-stats.json'
+        }),
+        new ExtractTextPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
     ],
     module: {
         rules: [
@@ -26,16 +32,19 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: [['latest']]
+                            presets: [['@babel/preset-env']]
                         }
                     }
                 ]
             }, {
                 test: /\.s?css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    loader: ['css-loader', 'sass-loader']
-                })
+                use: [
+                    {
+                        loader: ExtractTextPlugin.loader
+                    },
+                    'css-loader',
+                    'sass-loader'
+                ]
             }
         ]
     },

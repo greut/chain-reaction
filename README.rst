@@ -139,9 +139,9 @@ The assets must be rebuild if you change anything.
 .. code:: console
 
     $ npm install
-    $ npm run prod
+    $ npx webpack -p
     # or
-    $ npm run watch
+    $ npx webpack --mode=development --watch
 
 Updating requirements
 =====================

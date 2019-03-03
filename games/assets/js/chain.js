@@ -51,7 +51,7 @@ function score() {
     return scores
 }
 
-function chain(ws, elem)
+export default function chain(ws, elem)
 {
     canvas = new fabric.Canvas(elem[0]);
     num = elem.data('num')
@@ -328,5 +328,3 @@ function chain(ws, elem)
         })()
     }
 }
-
-module.exports = chain

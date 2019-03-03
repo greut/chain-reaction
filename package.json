@@ -1,22 +1,20 @@
 {
-  "scripts": {
-    "prod": "webpack -p",
-    "watch": "webpack --watch"
-  },
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-loader": "^6.3.2",
-    "babel-preset-latest": "^6.22.0",
-    "bootstrap": "^4.0.0-alpha.6",
-    "css-loader": "^0.26.2",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "bootstrap": "^4.3.0",
+    "css-loader": "^2.1.0",
     "django-channels": "^1.1.2",
-    "extract-text-webpack-plugin": "^2.0.0",
-    "file-loader": "^0.10.1",
+    "file-loader": "^3.0.1",
     "jquery": "^3.1.1",
+    "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.5.0",
+    "popper.js": "^1.14.7",
     "sass-loader": "^6.0.2",
     "style-loader": "^0.13.2",
-    "webpack": "^2.2.1",
-    "webpack-bundle-tracker": "^0.2.0"
+    "webpack": "^4.29.6",
+    "webpack-bundle-tracker": "^0.4.2-beta",
+    "webpack-cli": "^3.2.3"
   }
 }
